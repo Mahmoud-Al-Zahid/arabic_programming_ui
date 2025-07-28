@@ -105,10 +105,10 @@ class _StoreScreenState extends State<StoreScreen>
       context: context,
       barrierDismissible: false,
       builder: (context) {
-        return const AlertDialog(
+        return AlertDialog(
           content: Column(
             mainAxisSize: MainAxisSize.min,
-            children: [
+            children: const [
               CircularProgressIndicator(),
               SizedBox(height: 16),
               Text('جاري معالجة الشراء...'),

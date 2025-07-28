@@ -243,7 +243,9 @@ class _QuizScreenState extends State<QuizScreen> {
         // Drop Zone
         Container(
           width: double.infinity,
-          min: 120,
+          constraints: const BoxConstraints(
+            minHeight: 120,
+          ),
           padding: const EdgeInsets.all(AppConstants.defaultPadding),
           decoration: BoxDecoration(
             color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
