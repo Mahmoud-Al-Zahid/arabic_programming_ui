@@ -10,12 +10,12 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.2
-  google_fonts: ^6.1.0
+  google_fonts: ^3.0.1   # آخر إصدار متوافق مع Dart 2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^3.0.0
+  flutter_lints: ^2.0.1  # آخر إصدار متوافق مع Dart 2
 
 flutter:
   uses-material-design: true
