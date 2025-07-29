@@ -1,0 +1,118 @@
+{
+  "id": "python_hello",
+  "title": "مرحباً بايثون",
+  "subtitle": "أول خطوة في رحلة البرمجة",
+  "duration": 15,
+  "difficulty": "مبتدئ",
+  "objectives": [
+    "فهم ما هي لغة البايثون",
+    "كتابة أول برنامج بايثون",
+    "استخدام دالة `print()`",
+    "فهم مفهوم السلاسل النصية"
+  ],
+  "slides": [
+    {
+      "id": "slide_1",
+      "title": "ما هي لغة البايثون؟",
+      "type": "introduction",
+      "content": "البايثون هي لغة برمجة سهلة التعلم وقوية في نفس الوقت. تستخدم في تطوير المواقع، الذكاء الاصطناعي، وتحليل البيانات.",
+      "highlights": [
+        "سهلة التعلم والاستخدام",
+        "تستخدم في `Google` و `Netflix` و `Instagram`",
+        "مناسبة للذكاء الاصطناعي وتحليل البيانات",
+        "مجتمع كبير ومكتبات متنوعة"
+      ],
+      "visual": {
+        "type": "illustration",
+        "content": "python_intro.svg"
+      },
+      "code": {
+        "language": "python",
+        "content": "print(\"مرحباً بالعالم!\")"
+      }
+    },
+    {
+      "id": "slide_2",
+      "title": "لماذا نتعلم البايثون؟",
+      "type": "concept",
+      "content": "البايثون مناسبة للمبتدئين لأنها سهلة القراءة والفهم. كما أنها تستخدم في شركات كبيرة مثل جوجل ونتفليكس.",
+      "code": {
+        "language": "python",
+        "content": "name = \"أحمد\"\nprint(f\"مرحباً {name}!\")"
+      },
+      "interactive": {
+        "type": "code_editor",
+        "initialCode": "print(\"مرحباً بالعالم!\")",
+        "expectedOutput": "مرحباً بالعالم!"
+      }
+    },
+    {
+      "id": "slide_3",
+      "title": "التعامل مع المتغيرات",
+      "type": "concept",
+      "content": "المتغيرات في البايثون هي أسماء نعطيها للبيانات لنتمكن من استخدامها لاحقاً. يمكننا تخزين النصوص والأرقام والكثير غيرها في المتغيرات.",
+      "code": {
+        "language": "python",
+        "content": "name = \"أحمد\"\nage = 25\nprint(f\"مرحباً {name}، عمرك {age} سنة\")"
+      },
+      "quiz_preview": {
+        "question": "ما هي الدالة المستخدمة لطباعة النص في البايثون؟",
+        "options": ["print()", "show()", "display()", "output()"]
+      }
+    },
+    {
+      "id": "slide_4",
+      "title": "ملخص الدرس",
+      "type": "summary",
+      "content": "تعلمنا في هذا الدرس:\n• ما هي لغة البايثون\n• لماذا هي مهمة\n• كيفية كتابة أول برنامج",
+      "achievements": [
+        "✅ تعرفت على لغة البايثون",
+        "✅ كتبت أول برنامج لك",
+        "✅ استخدمت دالة `print()`",
+        "✅ تعلمت عن المتغيرات"
+      ],
+      "next_steps": ["حل الاختبار التفاعلي", "التدرب على الأمثلة", "الانتقال للدرس التالي"],
+      "rewards": {
+        "xp": 100,
+        "coins": 50,
+        "badge": "python_beginner"
+      }
+    }
+  ],
+  "quiz": {
+    "id": "python_hello_quiz",
+    "title": "اختبار: مرحباً بايثون",
+    "timeLimit": 300,
+    "passingScore": 70,
+    "questions": [
+      {
+        "id": "q1",
+        "type": "multiple_choice",
+        "question": "ما هي الدالة المستخدمة لطباعة النص في البايثون؟",
+        "options": ["print()", "show()", "display()", "output()"],
+        "correctAnswer": 0,
+        "explanation": "دالة `print()` هي الدالة الأساسية لطباعة النصوص في البايثون",
+        "points": 10
+      },
+      {
+        "id": "q2",
+        "type": "fill_blank",
+        "question": "أكمل الكود التالي لطباعة 'مرحباً بالعالم':",
+        "code": "___('مرحباً بالعالم')",
+        "correctAnswer": "print",
+        "explanation": "نستخدم `print` لطباعة النصوص",
+        "points": 15
+      },
+      {
+        "id": "q3",
+        "type": "code_arrangement",
+        "question": "رتب الأسطر التالية لإنشاء برنامج صحيح:",
+        "codeBlocks": ["name = 'سارة'", "print(f'مرحباً {name}')"],
+        "correctOrder": [0, 1],
+        "explanation": "يجب تعريف المتغير أولاً ثم استخدامه",
+        "points": 20
+      }
+    ]
+  },
+  "trackId": "python"
+}

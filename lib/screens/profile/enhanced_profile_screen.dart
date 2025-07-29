@@ -1,17 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import '../../constants/app_constants.dart';
 import '../../constants/mock_data.dart';
+import '../../core/theme/app_themes.dart';
+import '../settings/settings_screen.dart'; // Import settings screen
 
-class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({super.key});
+class EnhancedProfileScreen extends StatefulWidget {
+  final AppThemeType currentTheme;
+  final Function(AppThemeType) onThemeChange;
+
+  const EnhancedProfileScreen({
+    super.key,
+    required this.currentTheme,
+    required this.onThemeChange,
+  });
 
   @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
+  State<EnhancedProfileScreen> createState() => _EnhancedProfileScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
+class _EnhancedProfileScreenState extends State<EnhancedProfileScreen> {
   @override
   Widget build(BuildContext context) {
+    final themeConfig = AppThemes.themeConfigs[widget.currentTheme]!;
+
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -19,7 +31,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              Theme.of(context).colorScheme.primary.withOpacity(0.1),
+              themeConfig['primary'].withOpacity(0.1),
               Theme.of(context).colorScheme.background,
             ],
           ),
@@ -28,7 +40,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           child: CustomScrollView(
             slivers: [
               SliverAppBar(
-                expandedHeight: 200.0,
+                expandedHeight: 240.0,
                 floating: false,
                 pinned: true,
                 flexibleSpace: FlexibleSpaceBar(
@@ -43,10 +55,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   background: Container(
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
-                        colors: [
-                          Theme.of(context).colorScheme.primary,
-                          Theme.of(context).colorScheme.secondary,
-                        ],
+                        colors: AppThemes.getGradient(widget.currentTheme).colors,
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                       ),
@@ -55,12 +64,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         CircleAvatar(
-                          radius: 40,
+                          radius: 50,
                           backgroundColor: Colors.white.withOpacity(0.8),
                           child: Icon(
                             Icons.person,
-                            size: 50,
-                            color: Theme.of(context).colorScheme.primary,
+                            size: 60,
+                            color: themeConfig['primary'],
                           ),
                         ),
                         const SizedBox(height: 10),
@@ -72,7 +81,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                         ),
                         Text(
-                          'المستوى 10',
+                          'المستوى 10 | 1250 نقطة',
                           style: Theme.of(context).textTheme.titleMedium?.copyWith(
                             color: Colors.white70,
                           ),
@@ -81,9 +90,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                   ),
                 ),
+                actions: [
+                  IconButton(
+                    icon: const Icon(Icons.settings, color: Colors.white),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => SettingsScreen(
+                            currentTheme: widget.currentTheme,
+                            onThemeChange: widget.onThemeChange,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ],
               ),
               SliverPadding(
-                padding: const EdgeInsets.all(20.0),
+                padding: const EdgeInsets.all(AppConstants.defaultPadding),
                 sliver: SliverList(
                   delegate: SliverChildListDelegate(
                     [
@@ -110,11 +135,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             final achievement = MockData.achievements[index];
                             return AnimationConfiguration.staggeredGrid(
                               position: index,
-                              duration: const Duration(milliseconds: 375),
+                              duration: AppConstants.animationDuration,
                               columnCount: 3,
                               child: ScaleAnimation(
                                 child: FadeInAnimation(
-                                  child: _buildAchievementCard(achievement),
+                                  child: _buildAchievementCard(achievement, themeConfig),
                                 ),
                               ),
                             );
@@ -123,45 +148,31 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                       const SizedBox(height: 40),
                       Text(
-                        'الإعدادات',
+                        'الدروس المكتملة',
                         style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                           fontWeight: FontWeight.bold,
                           color: Theme.of(context).colorScheme.onSurface,
                         ),
                       ),
                       const SizedBox(height: 20),
-                      Card(
-                        elevation: 4,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                        child: Column(
-                          children: [
-                            ListTile(
-                              leading: Icon(Icons.color_lens, color: Theme.of(context).colorScheme.primary),
-                              title: const Text('تغيير المظهر'),
-                              trailing: const Icon(Icons.arrow_forward_ios),
-                              onTap: () {
-                                // Navigate to theme settings
-                              },
-                            ),
-                            ListTile(
-                              leading: Icon(Icons.language, color: Theme.of(context).colorScheme.primary),
-                              title: const Text('تغيير اللغة'),
-                              trailing: const Icon(Icons.arrow_forward_ios),
-                              onTap: () {
-                                // Navigate to language settings
-                              },
-                            ),
-                            ListTile(
-                              leading: Icon(Icons.logout, color: Theme.of(context).colorScheme.error),
-                              title: Text(
-                                'تسجيل الخروج',
-                                style: TextStyle(color: Theme.of(context).colorScheme.error),
+                      AnimationLimiter(
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: MockData.lessons.where((l) => l['isCompleted'] == true).length,
+                          itemBuilder: (context, index) {
+                            final lesson = MockData.lessons.where((l) => l['isCompleted'] == true).toList()[index];
+                            return AnimationConfiguration.staggeredList(
+                              position: index,
+                              duration: AppConstants.animationDuration,
+                              child: SlideAnimation(
+                                verticalOffset: 50.0,
+                                child: FadeInAnimation(
+                                  child: _buildCompletedLessonCard(lesson, themeConfig),
+                                ),
                               ),
-                              onTap: () {
-                                // Implement logout
-                              },
-                            ),
-                          ],
+                            );
+                          },
                         ),
                       ),
                     ],
@@ -175,14 +186,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Widget _buildAchievementCard(Map<String, dynamic> achievement) {
-    final isUnlocked = achievement['isUnlocked'] as bool;
+  Widget _buildAchievementCard(Map<String, dynamic> achievement, Map<String, dynamic> themeConfig) {
+    final isUnlocked = achievement['isUnlocked'] as bool? ?? false;
     return Card(
       elevation: isUnlocked ? 6 : 2,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(AppConstants.defaultBorderRadius),
         side: BorderSide(
-          color: isUnlocked ? Theme.of(context).colorScheme.primary : Colors.grey.shade300,
+          color: isUnlocked ? themeConfig['primary'] : Colors.grey.shade300,
           width: isUnlocked ? 2 : 1,
         ),
       ),
@@ -192,7 +203,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              achievement['icon'],
+              achievement['icon'] ?? '❓', // Null check
               style: TextStyle(
                 fontSize: 40,
                 color: isUnlocked ? null : Colors.grey,
@@ -200,7 +211,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
             const SizedBox(height: 8),
             Text(
-              achievement['title'],
+              achievement['title'] ?? 'إنجاز', // Null check
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                 fontWeight: FontWeight.bold,
                 color: isUnlocked ? null : Colors.grey,
@@ -209,6 +220,51 @@ class _ProfileScreenState extends State<ProfileScreen> {
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
             ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildCompletedLessonCard(Map<String, dynamic> lesson, Map<String, dynamic> themeConfig) {
+    return Card(
+      margin: const EdgeInsets.only(bottom: 16.0),
+      elevation: AppConstants.cardElevation,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(AppConstants.defaultBorderRadius),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(AppConstants.defaultPadding),
+        child: Row(
+          children: [
+            Icon(Icons.check_circle, color: Colors.green, size: 30),
+            const SizedBox(width: 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    lesson['title'] ?? 'درس مكتمل',
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: themeConfig['primary'],
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    '${lesson['track'] ?? 'مسار غير معروف'} | ${lesson['completedDate'] ?? 'تاريخ غير معروف'}',
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ),
+            ),
+            Icon(Icons.arrow_forward_ios, color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6)),
           ],
         ),
       ),

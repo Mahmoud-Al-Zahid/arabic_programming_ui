@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../constants/app_constants.dart';
 import '../navigation/main_navigation.dart';
+import '../home/home_screen.dart';
 
 class ResultsScreen extends StatefulWidget {
   final Map<String, dynamic> results;
@@ -120,10 +121,16 @@ class _ResultsScreenState extends State<ResultsScreen>
     final performanceColor = _getPerformanceColor(percentage);
 
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('نتائج الاختبار'),
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        foregroundColor: Colors.white,
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(AppConstants.defaultPadding),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const SizedBox(height: 32),
               
@@ -136,7 +143,7 @@ class _ResultsScreenState extends State<ResultsScreen>
                   borderRadius: BorderRadius.circular(75),
                 ),
                 child: Icon(
-                  percentage >= 70 ? Icons.celebration : Icons.refresh,
+                  percentage >= 70 ? Icons.emoji_events : Icons.sentiment_dissatisfied,
                   size: 80,
                   color: performanceColor,
                 ),
@@ -348,6 +355,9 @@ class _ResultsScreenState extends State<ResultsScreen>
                         backgroundColor: Theme.of(context).colorScheme.primary,
                         foregroundColor: Colors.white,
                         padding: const EdgeInsets.symmetric(vertical: 16),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
                       ),
                       child: Text(
                         percentage >= 70 ? 'الدرس التالي' : 'العودة للمسار',

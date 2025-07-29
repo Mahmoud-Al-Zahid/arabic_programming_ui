@@ -1,49 +1,39 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'screens/splash/splash_screen.dart';
-import 'themes/app_theme.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'screens/splash/enhanced_splash_screen.dart';
+import 'core/theme/app_themes.dart';
 
 void main() {
-  runApp(const ArabicProgrammingApp());
+  runApp(const MyApp());
 }
 
-class ArabicProgrammingApp extends StatefulWidget {
-  const ArabicProgrammingApp({super.key});
+class MyApp extends StatefulWidget {
+  const MyApp({super.key});
 
   @override
-  State<ArabicProgrammingApp> createState() => _ArabicProgrammingAppState();
+  State<MyApp> createState() => _MyAppState();
 }
 
-class _ArabicProgrammingAppState extends State<ArabicProgrammingApp> {
-  bool _isDarkMode = false;
+class _MyAppState extends State<MyApp> {
+  AppThemeType _currentTheme = AppThemeType.ocean; // Default theme
 
-  void _toggleTheme() {
+  void _handleThemeChange(AppThemeType newTheme) {
     setState(() {
-      _isDarkMode = !_isDarkMode;
+      _currentTheme = newTheme;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
-    ]);
-
     return MaterialApp(
-      title: 'تعلم البرمجة بالعربية',
+      title: 'Arabic Programming App',
       debugShowCheckedModeBanner: false,
-      theme: AppTheme.lightTheme,
-      darkTheme: AppTheme.darkTheme,
-      themeMode: _isDarkMode ? ThemeMode.dark : ThemeMode.light,
-      locale: const Locale('ar', 'SA'),
-      home: SplashScreen(onThemeToggle: _toggleTheme),
-      builder: (context, child) {
-        return Directionality(
-          textDirection: TextDirection.rtl,
-          child: child!,
-        );
-      },
+      theme: AppThemes.getTheme(_currentTheme).copyWith(
+        textTheme: GoogleFonts.cairoTextTheme(
+          Theme.of(context).textTheme,
+        ),
+      ),
+      home: const EnhancedSplashScreen(),
     );
   }
 }

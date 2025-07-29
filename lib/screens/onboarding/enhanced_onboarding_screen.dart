@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
-import '../auth/registration_screen.dart';
+import '../auth/enhanced_registration_screen.dart';
+import '../../constants/app_constants.dart';
+import '../../core/theme/app_themes.dart';
 
-class OnboardingScreen extends StatefulWidget {
-  const OnboardingScreen({super.key});
+class EnhancedOnboardingScreen extends StatefulWidget {
+  const EnhancedOnboardingScreen({super.key});
 
   @override
-  State<OnboardingScreen> createState() => _OnboardingScreenState();
+  State<EnhancedOnboardingScreen> createState() => _EnhancedOnboardingScreenState();
 }
 
-class _OnboardingScreenState extends State<OnboardingScreen> {
+class _EnhancedOnboardingScreenState extends State<EnhancedOnboardingScreen> {
   final PageController _pageController = PageController();
   int _currentPage = 0;
 
@@ -69,7 +71,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: AnimationConfiguration.toStaggeredList(
-                          duration: const Duration(milliseconds: 375),
+                          duration: AppConstants.animationDuration,
                           childAnimationBuilder: (widget) => SlideAnimation(
                             verticalOffset: 50.0,
                             child: FadeInAnimation(
@@ -93,7 +95,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             ),
                             const SizedBox(height: 20),
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 40.0),
+                              padding: const EdgeInsets.symmetric(horizontal: AppConstants.defaultPadding * 2),
                               child: Text(
                                 page['description']!,
                                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
@@ -131,7 +133,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               const SizedBox(height: 40),
               // Buttons
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                padding: const EdgeInsets.symmetric(horizontal: AppConstants.defaultPadding),
                 child: Column(
                   children: [
                     SizedBox(
@@ -140,19 +142,19 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         onPressed: () {
                           if (_currentPage < _onboardingPages.length - 1) {
                             _pageController.nextPage(
-                              duration: const Duration(milliseconds: 300),
-                              curve: Curves.easeIn,
+                              duration: AppConstants.animationDuration,
+                              curve: AppConstants.animationCurve,
                             );
                           } else {
                             Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(builder: (context) => const RegistrationScreen()),
+                              MaterialPageRoute(builder: (context) => const EnhancedRegistrationScreen()),
                             );
                           }
                         },
                         style: ElevatedButton.styleFrom(
                           padding: const EdgeInsets.symmetric(vertical: 16),
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
+                            borderRadius: BorderRadius.circular(AppConstants.defaultBorderRadius),
                           ),
                           backgroundColor: Theme.of(context).colorScheme.primary,
                           foregroundColor: Colors.white,
@@ -173,13 +175,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         child: TextButton(
                           onPressed: () {
                             Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(builder: (context) => const RegistrationScreen()),
+                              MaterialPageRoute(builder: (context) => const EnhancedRegistrationScreen()),
                             );
                           },
                           style: TextButton.styleFrom(
                             padding: const EdgeInsets.symmetric(vertical: 16),
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
+                              borderRadius: BorderRadius.circular(AppConstants.defaultBorderRadius),
                             ),
                             foregroundColor: Theme.of(context).colorScheme.primary,
                           ),

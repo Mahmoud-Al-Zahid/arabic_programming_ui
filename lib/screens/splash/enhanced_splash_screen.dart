@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
-import '../onboarding/onboarding_screen.dart';
+import '../onboarding/enhanced_onboarding_screen.dart';
+import '../../core/theme/app_themes.dart';
 
-class SplashScreen extends StatefulWidget {
-  const SplashScreen({super.key});
+class EnhancedSplashScreen extends StatefulWidget {
+  const EnhancedSplashScreen({super.key});
 
   @override
-  State<SplashScreen> createState() => _SplashScreenState();
+  State<EnhancedSplashScreen> createState() => _EnhancedSplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderStateMixin {
+class _EnhancedSplashScreenState extends State<EnhancedSplashScreen> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
 
@@ -30,7 +31,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
       if (status == AnimationStatus.completed) {
         Navigator.of(context).pushReplacement(
           PageRouteBuilder(
-            pageBuilder: (context, animation, secondaryAnimation) => const OnboardingScreen(),
+            pageBuilder: (context, animation, secondaryAnimation) => const EnhancedOnboardingScreen(),
             transitionsBuilder: (context, animation, secondaryAnimation, child) {
               return FadeTransition(
                 opacity: animation,
@@ -55,14 +56,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Theme.of(context).colorScheme.primary,
-              Theme.of(context).colorScheme.secondary,
-            ],
-          ),
+          gradient: AppThemes.getGradient(AppThemeType.ocean), // Example theme
         ),
         child: Center(
           child: AnimationLimiter(
@@ -79,7 +73,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                 children: [
                   ScaleTransition(
                     scale: _animation,
-                    child: Icon(
+                    child: const Icon(
                       Icons.code,
                       size: 100,
                       color: Colors.white,

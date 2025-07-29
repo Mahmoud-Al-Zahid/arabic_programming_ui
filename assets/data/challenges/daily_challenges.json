@@ -1,0 +1,20 @@
+{
+  "dailyChallenges": [
+    {
+      "id": "challenge_1",
+      "title": "تحدي الطباعة",
+      "description": "اكتب برنامج يطبع اسمك 5 مرات.",
+      "difficulty": "سهل",
+      "reward": 10,
+      "isCompleted": false
+    },
+    {
+      "id": "challenge_2",
+      "title": "تحدي المتغيرات",
+      "description": "أنشئ متغيرين واحسب مجموعهما.",
+      "difficulty": "متوسط",
+      "reward": 20,
+      "isCompleted": false
+    }
+  ]
+}

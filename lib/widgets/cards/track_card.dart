@@ -1,120 +1,102 @@
 import 'package:flutter/material.dart';
 import '../../constants/app_constants.dart';
+import '../../screens/course/course_view_screen.dart';
 
 class TrackCard extends StatelessWidget {
   final Map<String, dynamic> track;
-  final VoidCallback onTap;
 
-  const TrackCard({
-    super.key,
-    required this.track,
-    required this.onTap,
-  });
+  const TrackCard({super.key, required this.track});
 
   @override
   Widget build(BuildContext context) {
-    final isAccessible = track['isAccessible'] as bool;
-    final progress = track['progress'] as double;
-    final lessonsCount = track['lessonsCount'] as int;
-
-    return Card(
-      elevation: AppConstants.cardElevation,
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(AppConstants.defaultBorderRadius),
-        child: Container(
-          padding: const EdgeInsets.all(AppConstants.defaultPadding),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Track Icon and Lock Status
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                    width: 40,
-                    height: 40,
-                    decoration: BoxDecoration(
-                      color: isAccessible
-                          ? Theme.of(context).colorScheme.primary.withOpacity(0.1)
-                          : Colors.grey.withOpacity(0.1),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Center(
-                      child: Text(
-                        track['icon'],
-                        style: const TextStyle(fontSize: 20),
-                      ),
+    return GestureDetector(
+      onTap: () {
+        if (track['isAccessible']) {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => CourseViewScreen(track: track),
+            ),
+          );
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('مسار ${track['title']} مقفل حالياً!'),
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
+      },
+      child: Card(
+        elevation: AppConstants.cardElevation,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppConstants.defaultBorderRadius),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.vertical(
+                    top: Radius.circular(AppConstants.defaultBorderRadius),
+                  ),
+                  image: DecorationImage(
+                    image: NetworkImage(track['image'] ?? '/placeholder.svg?height=200&width=300&text=Track Image'),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                child: Align(
+                  alignment: Alignment.topRight,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Icon(
+                      track['isAccessible'] ? Icons.lock_open : Icons.lock,
+                      color: track['isAccessible'] ? Colors.green : Colors.red,
                     ),
                   ),
-                  if (!isAccessible)
-                    Icon(
-                      Icons.lock,
-                      color: Colors.grey,
-                      size: 20,
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(AppConstants.defaultPadding / 2),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    track['title'],
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.bold,
                     ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    track['description'],
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
+                    ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  const SizedBox(height: 8),
+                  LinearProgressIndicator(
+                    value: (track['progress'] as double?) ?? 0.0,
+                    backgroundColor: Colors.grey.shade300,
+                    valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).colorScheme.primary),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    '${((track['progress'] as double? ?? 0.0) * 100).toInt()}% مكتمل',
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      color: Theme.of(context).colorScheme.primary,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ],
               ),
-              const SizedBox(height: 12),
-
-              // Track Title
-              Text(
-                track['title'],
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  color: isAccessible
-                      ? Theme.of(context).colorScheme.onSurface
-                      : Colors.grey,
-                  fontWeight: FontWeight.bold,
-                ),
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-              ),
-              const SizedBox(height: 8),
-
-              // Lessons Count
-              Text(
-                '$lessonsCount دروس',
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: isAccessible
-                      ? Theme.of(context).colorScheme.onSurface.withOpacity(0.7)
-                      : Colors.grey,
-                ),
-              ),
-              const Spacer(),
-
-              // Progress Bar (only for accessible tracks)
-              if (isAccessible) ...[
-                LinearProgressIndicator(
-                  value: progress,
-                  backgroundColor: Theme.of(context).colorScheme.primary.withOpacity(0.2),
-                  valueColor: AlwaysStoppedAnimation<Color>(
-                    Theme.of(context).colorScheme.primary,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  '${(progress * 100).toInt()}% مكتمل',
-                  style: Theme.of(context).textTheme.bodySmall,
-                ),
-              ] else ...[
-                Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.symmetric(vertical: 8),
-                  decoration: BoxDecoration(
-                    color: Colors.grey.withOpacity(0.2),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Text(
-                    'قريباً',
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: Colors.grey,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              ],
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

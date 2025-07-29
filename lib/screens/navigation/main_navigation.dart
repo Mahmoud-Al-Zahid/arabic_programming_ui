@@ -1,63 +1,71 @@
 import 'package:flutter/material.dart';
 import '../home/home_screen.dart';
-import '../review/review_screen.dart';
+import '../challenges/challenges_screen.dart';
+import '../community/community_screen.dart';
 import '../profile/profile_screen.dart';
+import '../store/store_screen.dart';
 
 class MainNavigation extends StatefulWidget {
-  final VoidCallback onThemeToggle;
-
-  const MainNavigation({super.key, required this.onThemeToggle});
+  const MainNavigation({super.key});
 
   @override
   State<MainNavigation> createState() => _MainNavigationState();
 }
 
 class _MainNavigationState extends State<MainNavigation> {
-  int _currentIndex = 0;
+  int _selectedIndex = 0;
 
-  late final List<Widget> _screens;
+  static final List<Widget> _widgetOptions = <Widget>[
+    const HomeScreen(),
+    const ChallengesScreen(),
+    const CommunityScreen(),
+    const StoreScreen(),
+    const ProfileScreen(),
+  ];
 
-  @override
-  void initState() {
-    super.initState();
-    _screens = [
-      HomeScreen(onThemeToggle: widget.onThemeToggle),
-      const ReviewScreen(),
-      ProfileScreen(onThemeToggle: widget.onThemeToggle),
-    ];
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: IndexedStack(
-        index: _currentIndex,
-        children: _screens,
+      body: Center(
+        child: _widgetOptions.elementAt(_selectedIndex),
       ),
-      bottomNavigationBar: NavigationBar(
-        selectedIndex: _currentIndex,
-        onDestinationSelected: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
-        },
-        destinations: const [
-          NavigationDestination(
-            icon: Icon(Icons.home_outlined),
-            selectedIcon: Icon(Icons.home),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
             label: 'الرئيسية',
           ),
-          NavigationDestination(
-            icon: Icon(Icons.book_outlined),
-            selectedIcon: Icon(Icons.book),
-            label: 'المراجعة',
+          BottomNavigationBarItem(
+            icon: Icon(Icons.flash_on),
+            label: 'التحديات',
           ),
-          NavigationDestination(
-            icon: Icon(Icons.person_outline),
-            selectedIcon: Icon(Icons.person),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.people),
+            label: 'المجتمع',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.store),
+            label: 'المتجر',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
             label: 'الملف الشخصي',
           ),
         ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: Theme.of(context).colorScheme.primary,
+        unselectedItemColor: Colors.grey,
+        onTap: _onItemTapped,
+        type: BottomNavigationBarType.fixed,
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
+        unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.normal),
       ),
     );
   }

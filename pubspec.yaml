@@ -1,33 +1,37 @@
 name: arabic_programming_app
-description: Arabic Programming Learning App - Bubble Core System
+description: A new Flutter project.
 publish_to: 'none'
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.18.0 <3.0.0"
+  sdk: '>=3.2.3 <4.0.0'
 
 dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.2
-  google_fonts: ^3.0.1   # آخر إصدار متوافق مع Dart 2
+  google_fonts: ^6.1.0
+  flutter_staggered_animations: ^1.1.1
+  confetti: ^0.7.0
+  path_drawing: ^1.0.1 # For drawing dashed paths, etc.
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^2.0.1  # آخر إصدار متوافق مع Dart 2
+  flutter_lints: ^2.0.0
 
 flutter:
   uses-material-design: true
-  
   assets:
-    - assets/images/
-    - assets/icons/
-    - assets/mock_data/
-  
+    - assets/data/languages.json
+    - assets/data/python/level_1/unit_1/lesson_1.json
+    - assets/data/challenges/daily_challenges.json
+    - assets/data/community/posts.json
   fonts:
     - family: Cairo
       fonts:
         - asset: assets/fonts/Cairo-Regular.ttf
         - asset: assets/fonts/Cairo-Bold.ttf
           weight: 700
+        - asset: assets/fonts/Cairo-SemiBold.ttf
+          weight: 600

@@ -32,30 +32,9 @@ class _LessonScreenState extends State<LessonScreen> {
     }
   }
 
-  void _previousSlide() {
-    if (_currentSlide > 0) {
-      setState(() {
-        _currentSlide--;
-      });
-    }
-  }
-
   void _navigateToQuiz() {
     Navigator.of(context).pushReplacement(
-      PageRouteBuilder(
-        pageBuilder: (context, animation, secondaryAnimation) =>
-            QuizScreen(quiz: MockData.sampleQuiz),
-        transitionsBuilder: (context, animation, secondaryAnimation, child) {
-          return SlideTransition(
-            position: Tween<Offset>(
-              begin: const Offset(1.0, 0.0),
-              end: Offset.zero,
-            ).animate(animation),
-            child: child,
-          );
-        },
-        transitionDuration: const Duration(milliseconds: 300),
-      ),
+      MaterialPageRoute(builder: (context) => QuizScreen(quiz: MockData.sampleQuiz)),
     );
   }
 
@@ -267,39 +246,6 @@ class _LessonScreenState extends State<LessonScreen> {
                     ],
                   ],
                 ),
-              ),
-            ),
-
-            // Navigation Buttons
-            Container(
-              padding: const EdgeInsets.all(AppConstants.defaultPadding),
-              child: Row(
-                children: [
-                  // Previous Button
-                  if (_currentSlide > 0)
-                    Expanded(
-                      child: OutlinedButton(
-                        onPressed: _previousSlide,
-                        child: const Text('السابق'),
-                      ),
-                    ),
-                  if (_currentSlide > 0) const SizedBox(width: 16),
-                  // Next Button
-                  Expanded(
-                    flex: _currentSlide == 0 ? 1 : 1,
-                    child: ElevatedButton(
-                      onPressed: _nextSlide,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Theme.of(context).colorScheme.primary,
-                        foregroundColor: Colors.white,
-                      ),
-                      child: Text(
-                        isLastSlide ? 'ابدأ الاختبار' : 'التالي',
-                        style: const TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                  ),
-                ],
               ),
             ),
           ],

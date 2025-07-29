@@ -1,6 +1,6 @@
 class MockData {
   // Learning Tracks Data
-  static const List<Map<String, dynamic>> learningTracks = [
+  static final List<Map<String, dynamic>> learningTracks = [
     // Accessible Tracks
     {
       'id': 'pre_programming',
@@ -10,6 +10,7 @@ class MockData {
       'progress': 0.0,
       'lessonsCount': 8,
       'description': 'تعرف على عالم البرمجة قبل البدء',
+      'image': '/placeholder.svg?height=200&width=300&text=Pre-Programming',
     },
     {
       'id': 'logical_thinking',
@@ -19,6 +20,7 @@ class MockData {
       'progress': 0.0,
       'lessonsCount': 12,
       'description': 'طور مهارات التفكير المنطقي',
+      'image': '/placeholder.svg?height=200&width=300&text=Logical Thinking',
     },
     {
       'id': 'computer_science_intro',
@@ -28,6 +30,7 @@ class MockData {
       'progress': 0.0,
       'lessonsCount': 15,
       'description': 'أساسيات علوم الحاسوب',
+      'image': '/placeholder.svg?height=200&width=300&text=Computer Science',
     },
     {
       'id': 'programmer_roadmap',
@@ -37,6 +40,7 @@ class MockData {
       'progress': 0.0,
       'lessonsCount': 6,
       'description': 'اختر مسارك في البرمجة',
+      'image': '/placeholder.svg?height=200&width=300&text=Roadmap',
     },
     {
       'id': 'career_guidance',
@@ -46,6 +50,7 @@ class MockData {
       'progress': 0.0,
       'lessonsCount': 10,
       'description': 'خطط لمستقبلك المهني',
+      'image': '/placeholder.svg?height=200&width=300&text=Career Guidance',
     },
     {
       'id': 'python',
@@ -55,6 +60,7 @@ class MockData {
       'progress': 0.15,
       'lessonsCount': 20,
       'description': 'تعلم لغة البايثون من الصفر',
+      'image': '/placeholder.svg?height=200&width=300&text=Python',
     },
     {
       'id': 'html',
@@ -64,6 +70,7 @@ class MockData {
       'progress': 0.0,
       'lessonsCount': 14,
       'description': 'أساسيات بناء صفحات الويب',
+      'image': '/placeholder.svg?height=200&width=300&text=HTML',
     },
     {
       'id': 'css',
@@ -73,6 +80,7 @@ class MockData {
       'progress': 0.0,
       'lessonsCount': 18,
       'description': 'تصميم وتنسيق صفحات الويب',
+      'image': '/placeholder.svg?height=200&width=300&text=CSS',
     },
     {
       'id': 'programming_basics',
@@ -82,6 +90,7 @@ class MockData {
       'progress': 0.0,
       'lessonsCount': 16,
       'description': 'المفاهيم الأساسية في البرمجة',
+      'image': '/placeholder.svg?height=200&width=300&text=Programming Basics',
     },
     {
       'id': 'scratch',
@@ -91,6 +100,7 @@ class MockData {
       'progress': 0.0,
       'lessonsCount': 12,
       'description': 'تعلم البرمجة بطريقة بصرية',
+      'image': '/placeholder.svg?height=200&width=300&text=Scratch',
     },
     {
       'id': 'alice',
@@ -100,6 +110,7 @@ class MockData {
       'progress': 0.0,
       'lessonsCount': 10,
       'description': 'برمجة ثلاثية الأبعاد للمبتدئين',
+      'image': '/placeholder.svg?height=200&width=300&text=Alice 3D',
     },
     {
       'id': 'mit_app_inventor',
@@ -109,6 +120,7 @@ class MockData {
       'progress': 0.0,
       'lessonsCount': 14,
       'description': 'إنشاء تطبيقات الهاتف بسهولة',
+      'image': '/placeholder.svg?height=200&width=300&text=MIT App Inventor',
     },
     // Locked Tracks
     {
@@ -119,6 +131,7 @@ class MockData {
       'progress': 0.0,
       'lessonsCount': 25,
       'description': 'لغة البرمجة الشائعة',
+      'image': '/placeholder.svg?height=200&width=300&text=Java',
     },
     {
       'id': 'cpp',
@@ -128,6 +141,7 @@ class MockData {
       'progress': 0.0,
       'lessonsCount': 30,
       'description': 'لغة البرمجة عالية الأداء',
+      'image': '/placeholder.svg?height=200&width=300&text=C++',
     },
     {
       'id': 'javascript',
@@ -137,6 +151,7 @@ class MockData {
       'progress': 0.0,
       'lessonsCount': 22,
       'description': 'لغة برمجة الويب التفاعلي',
+      'image': '/placeholder.svg?height=200&width=300&text=JavaScript',
     },
   ];
 
@@ -168,37 +183,38 @@ class MockData {
   };
 
   // Sample Quiz Data
-  static const Map<String, dynamic> sampleQuiz = {
-    'id': 'python_hello_quiz',
-    'title': 'اختبار: مرحباً بايثون',
-    'lessonId': 'python_hello',
-    'questions': [
-      {
-        'id': 'q1',
-        'type': 'multiple_choice',
-        'question': 'ما هي الدالة المستخدمة لطباعة النص في البايثون؟',
-        'options': ['print()', 'show()', 'display()', 'output()'],
-        'correctAnswer': 0,
-      },
-      {
-        'id': 'q2',
-        'type': 'fill_blank',
-        'question': 'أكمل الكود التالي لطباعة "مرحباً بالعالم"',
-        'code': '___("مرحباً بالعالم")',
-        'correctAnswer': 'print',
-      },
-      {
-        'id': 'q3',
-        'type': 'drag_drop',
-        'question': 'رتب الكود التالي بالترتيب الصحيح:',
-        'codeBlocks': ['name = "أحمد"', 'print(f"مرحباً {name}!")'],
-        'correctOrder': [0, 1],
-      },
-    ],
-  };
+  static final List<Map<String, dynamic>> quizQuestions = [
+    {
+      'id': 'q1',
+      'type': 'multiple_choice',
+      'question': 'ما هي الدالة المستخدمة لطباعة النص في البايثون؟',
+      'options': ['print()', 'show()', 'display()', 'output()'],
+      'correctAnswer': 0,
+      'explanation': 'دالة `print()` هي الدالة الأساسية لطباعة النصوص في البايثون',
+      'points': 10,
+    },
+    {
+      'id': 'q2',
+      'type': 'fill_blank',
+      'question': 'أكمل الكود التالي لطباعة "مرحباً بالعالم":',
+      'code': '___("مرحباً بالعالم")',
+      'correctAnswer': 'print',
+      'explanation': 'نستخدم `print` لطباعة النصوص',
+      'points': 15,
+    },
+    {
+      'id': 'q3',
+      'type': 'code_arrangement',
+      'question': 'رتب الأسطر التالية لإنشاء برنامج صحيح:',
+      'codeBlocks': ['name = "سارة"', 'print(f"مرحباً {name}")'],
+      'correctOrder': [0, 1],
+      'explanation': 'يجب تعريف المتغير أولاً ثم استخدامه',
+      'points': 20,
+    },
+  ];
 
   // Achievements Data
-  static const List<Map<String, dynamic>> achievements = [
+  static final List<Map<String, dynamic>> achievements = [
     {
       'id': 'first_lesson',
       'title': 'الدرس الأول',
@@ -230,7 +246,7 @@ class MockData {
   ];
 
   // Store Items Data
-  static const List<Map<String, dynamic>> storeItems = [
+  static final List<Map<String, dynamic>> storeItems = [
     // Coins Section
     {
       'id': 'coins_100',
@@ -297,6 +313,87 @@ class MockData {
       'currency': 'coins',
       'icon': '👑',
       'description': 'شارة مميزة للملف الشخصي',
+    },
+  ];
+
+  static final List<Map<String, dynamic>> lessons = [
+    {
+      'id': 'lesson_1',
+      'title': 'مقدمة في البايثون',
+      'description': 'تعرف على أساسيات لغة البايثون',
+      'duration': '15 دقيقة',
+      'isUnlocked': true,
+      'isCompleted': false,
+      'type': 'introduction',
+      'trackId': 'python',
+    },
+    {
+      'id': 'lesson_2',
+      'title': 'المتغيرات والأنواع',
+      'description': 'تعلم كيفية استخدام المتغيرات',
+      'duration': '20 دقيقة',
+      'isUnlocked': true,
+      'isCompleted': false,
+      'type': 'concept',
+      'trackId': 'python',
+    },
+    {
+      'id': 'lesson_3',
+      'title': 'العمليات الحسابية',
+      'description': 'العمليات الأساسية في البايثون',
+      'duration': '18 دقيقة',
+      'isUnlocked': false,
+      'isCompleted': false,
+      'type': 'practice',
+      'trackId': 'python',
+    },
+    {
+      'id': 'lesson_4',
+      'title': 'الشروط والحلقات',
+      'description': 'التحكم في تدفق البرنامج',
+      'duration': '25 دقيقة',
+      'isUnlocked': false,
+      'isCompleted': false,
+      'type': 'concept',
+      'trackId': 'python',
+    },
+    {
+      'id': 'lesson_5',
+      'title': 'الدوال',
+      'description': 'إنشاء واستخدام الدوال',
+      'duration': '22 دقيقة',
+      'isUnlocked': false,
+      'isCompleted': false,
+      'type': 'practice',
+      'trackId': 'python',
+    },
+    {
+      'id': 'html_intro',
+      'title': 'مقدمة في HTML',
+      'track': 'HTML - هيكل الويب',
+      'completedDate': 'منذ 3 أيام',
+      'score': 92,
+      'coins': 60,
+      'difficulty': 'مبتدئ',
+      'timeSpent': '20 دقيقة',
+      'isUnlocked': true,
+      'isCompleted': true,
+      'type': 'introduction',
+      'trackId': 'html',
+    },
+    {
+      'id': 'logic_basics',
+      'title': 'أساسيات المنطق',
+      'track': 'التفكير المنطقي',
+      'completedDate': 'منذ أسبوع',
+      'score': 78,
+      'coins': 40,
+      'difficulty': 'متوسط',
+      'timeSpent': '25 دقيقة',
+      'isUnlocked': true,
+      'isCompleted': true,
+      'type': 'concept',
+      'trackId': 'logical_thinking',
     },
   ];
 }

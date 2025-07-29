@@ -12,9 +12,10 @@ class QuizScreen extends StatefulWidget {
 }
 
 class _QuizScreenState extends State<QuizScreen> {
-  int _currentQuestion = 0;
-  final Map<int, dynamic> _answers = {};
+  int _currentQuestionIndex = 0;
+  int _score = 0;
   late List<Map<String, dynamic>> _questions;
+  final Map<int, dynamic> _answers = {};
 
   @override
   void initState() {
@@ -22,77 +23,36 @@ class _QuizScreenState extends State<QuizScreen> {
     _questions = List<Map<String, dynamic>>.from(widget.quiz['questions']);
   }
 
-  void _selectAnswer(dynamic answer) {
-    setState(() {
-      _answers[_currentQuestion] = answer;
-    });
-  }
-
-  void _nextQuestion() {
-    if (_currentQuestion < _questions.length - 1) {
+  void _answerQuestion(int selectedOptionIndex) {
+    if (selectedOptionIndex == _questions[_currentQuestionIndex]['correctAnswer']) {
       setState(() {
-        _currentQuestion++;
+        _score++;
+      });
+    }
+
+    setState(() {
+      _answers[_currentQuestionIndex] = selectedOptionIndex;
+    });
+
+    if (_currentQuestionIndex < _questions.length - 1) {
+      setState(() {
+        _currentQuestionIndex++;
       });
     } else {
-      _finishQuiz();
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => ResultsScreen(
+            score: _score,
+            totalQuestions: _questions.length,
+          ),
+        ),
+      );
     }
-  }
-
-  void _previousQuestion() {
-    if (_currentQuestion > 0) {
-      setState(() {
-        _currentQuestion--;
-      });
-    }
-  }
-
-  void _finishQuiz() {
-    // Calculate score (mock calculation)
-    int correctAnswers = 0;
-    for (int i = 0; i < _questions.length; i++) {
-      final question = _questions[i];
-      final userAnswer = _answers[i];
-      
-      if (question['type'] == 'multiple_choice') {
-        if (userAnswer == question['correctAnswer']) {
-          correctAnswers++;
-        }
-      } else if (question['type'] == 'fill_blank') {
-        if (userAnswer?.toString().toLowerCase() == 
-            question['correctAnswer'].toString().toLowerCase()) {
-          correctAnswers++;
-        }
-      } else if (question['type'] == 'drag_drop') {
-        // Simple check for drag and drop
-        if (userAnswer != null && userAnswer.length == question['correctOrder'].length) {
-          correctAnswers++;
-        }
-      }
-    }
-
-    final results = {
-      'score': correctAnswers,
-      'total': _questions.length,
-      'percentage': (correctAnswers / _questions.length * 100).round(),
-      'answers': _answers,
-      'questions': _questions,
-    };
-
-    Navigator.of(context).pushReplacement(
-      PageRouteBuilder(
-        pageBuilder: (context, animation, secondaryAnimation) =>
-            ResultsScreen(results: results),
-        transitionsBuilder: (context, animation, secondaryAnimation, child) {
-          return FadeTransition(opacity: animation, child: child);
-        },
-        transitionDuration: const Duration(milliseconds: 300),
-      ),
-    );
   }
 
   Widget _buildMultipleChoiceQuestion(Map<String, dynamic> question) {
     final options = List<String>.from(question['options']);
-    final selectedAnswer = _answers[_currentQuestion];
+    final selectedAnswer = _answers[_currentQuestionIndex];
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -112,7 +72,7 @@ class _QuizScreenState extends State<QuizScreen> {
           return Container(
             margin: const EdgeInsets.only(bottom: 12),
             child: InkWell(
-              onTap: () => _selectAnswer(index),
+              onTap: () => _answerQuestion(index),
               borderRadius: BorderRadius.circular(AppConstants.defaultBorderRadius),
               child: Container(
                 width: double.infinity,
@@ -171,8 +131,8 @@ class _QuizScreenState extends State<QuizScreen> {
 
   Widget _buildFillBlankQuestion(Map<String, dynamic> question) {
     final controller = TextEditingController();
-    if (_answers[_currentQuestion] != null) {
-      controller.text = _answers[_currentQuestion].toString();
+    if (_answers[_currentQuestionIndex] != null) {
+      controller.text = _answers[_currentQuestionIndex].toString();
     }
 
     return Column(
@@ -214,7 +174,9 @@ class _QuizScreenState extends State<QuizScreen> {
             border: OutlineInputBorder(),
             hintText: 'أكمل الكود المفقود',
           ),
-          onChanged: (value) => _selectAnswer(value),
+          onChanged: (value) => setState(() {
+            _answers[_currentQuestionIndex] = value;
+          }),
         ),
       ],
     );
@@ -222,7 +184,7 @@ class _QuizScreenState extends State<QuizScreen> {
 
   Widget _buildDragDropQuestion(Map<String, dynamic> question) {
     final codeBlocks = List<String>.from(question['codeBlocks']);
-    final userOrder = _answers[_currentQuestion] as List<int>? ?? [];
+    final userOrder = _answers[_currentQuestionIndex] as List<int>? ?? [];
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -243,9 +205,7 @@ class _QuizScreenState extends State<QuizScreen> {
         // Drop Zone
         Container(
           width: double.infinity,
-          constraints: const BoxConstraints(
-            minHeight: 120,
-          ),
+          min: 120,
           padding: const EdgeInsets.all(AppConstants.defaultPadding),
           decoration: BoxDecoration(
             color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
@@ -302,7 +262,7 @@ class _QuizScreenState extends State<QuizScreen> {
                 setState(() {
                   final newOrder = List<int>.from(userOrder);
                   newOrder.add(index);
-                  _selectAnswer(newOrder);
+                  _answers[_currentQuestionIndex] = newOrder;
                 });
               },
               child: Container(
@@ -329,7 +289,9 @@ class _QuizScreenState extends State<QuizScreen> {
         // Reset Button
         if (userOrder.isNotEmpty)
           TextButton(
-            onPressed: () => _selectAnswer(<int>[]),
+            onPressed: () => setState(() {
+              _answers[_currentQuestionIndex] = <int>[];
+            }),
             child: const Text('إعادة تعيين'),
           ),
       ],
@@ -338,9 +300,9 @@ class _QuizScreenState extends State<QuizScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final currentQuestion = _questions[_currentQuestion];
-    final hasAnswer = _answers.containsKey(_currentQuestion);
-    final isLastQuestion = _currentQuestion == _questions.length - 1;
+    final currentQuestion = _questions[_currentQuestionIndex];
+    final hasAnswer = _answers.containsKey(_currentQuestionIndex);
+    final isLastQuestion = _currentQuestionIndex == _questions.length - 1;
 
     return Scaffold(
       appBar: AppBar(
@@ -360,7 +322,7 @@ class _QuizScreenState extends State<QuizScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'السؤال ${_currentQuestion + 1} من ${_questions.length}',
+                        'السؤال ${_currentQuestionIndex + 1} من ${_questions.length}',
                         style: Theme.of(context).textTheme.bodyMedium,
                       ),
                       Container(
@@ -392,7 +354,7 @@ class _QuizScreenState extends State<QuizScreen> {
                   ),
                   const SizedBox(height: 8),
                   LinearProgressIndicator(
-                    value: (_currentQuestion + 1) / _questions.length,
+                    value: (_currentQuestionIndex + 1) / _questions.length,
                     backgroundColor: Theme.of(context).colorScheme.primary.withOpacity(0.2),
                     valueColor: AlwaysStoppedAnimation<Color>(
                       Theme.of(context).colorScheme.primary,
@@ -427,19 +389,21 @@ class _QuizScreenState extends State<QuizScreen> {
               child: Row(
                 children: [
                   // Previous Button
-                  if (_currentQuestion > 0)
+                  if (_currentQuestionIndex > 0)
                     Expanded(
                       child: OutlinedButton(
-                        onPressed: _previousQuestion,
+                        onPressed: () => setState(() {
+                          _currentQuestionIndex--;
+                        }),
                         child: const Text('السابق'),
                       ),
                     ),
-                  if (_currentQuestion > 0) const SizedBox(width: 16),
+                  if (_currentQuestionIndex > 0) const SizedBox(width: 16),
                   // Next/Finish Button
                   Expanded(
-                    flex: _currentQuestion == 0 ? 1 : 1,
+                    flex: _currentQuestionIndex == 0 ? 1 : 1,
                     child: ElevatedButton(
-                      onPressed: hasAnswer ? (isLastQuestion ? _finishQuiz : _nextQuestion) : null,
+                      onPressed: hasAnswer ? (isLastQuestion ? () => Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => ResultsScreen(score: _score, totalQuestions: _questions.length))) : () => setState(() { _currentQuestionIndex++; }) ) : null,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Theme.of(context).colorScheme.primary,
                         foregroundColor: Colors.white,

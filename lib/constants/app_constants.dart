@@ -1,14 +1,17 @@
+import 'package:flutter/material.dart';
+
 class AppConstants {
   // App Info
   static const String appName = 'تعلم البرمجة بالعربية';
   static const String appVersion = '1.0.0';
 
   // Animation Durations
-  static const Duration defaultAnimationDuration = Duration(milliseconds: 300);
+  static const Duration animationDuration = Duration(milliseconds: 500);
   static const Duration splashDuration = Duration(seconds: 3);
+  static const Curve animationCurve = Curves.easeInOut;
 
   // Spacing
-  static const double defaultPadding = 16.0;
+  static const double defaultPadding = 20.0;
   static const double smallPadding = 8.0;
   static const double largePadding = 24.0;
 
@@ -18,7 +21,7 @@ class AppConstants {
   static const double largeBorderRadius = 24.0;
 
   // Elevation
-  static const double cardElevation = 3.0;
+  static const double cardElevation = 8.0;
   static const double buttonElevation = 2.0;
 
   // Mock User Data

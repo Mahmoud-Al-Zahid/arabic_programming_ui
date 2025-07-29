@@ -1,0 +1,153 @@
+# Phase 2 – UI/UX Polish, Multi-language Support & Data-driven Architecture  
+## Arabic Programming Learning App (Flutter – Bubble Core System)
+
+---
+
+## 🎯 Objective  
+Enhance the **existing Phase 2 build** by applying **advanced UI/UX improvements, multi-language adaptability, and JSON-driven content architecture**, without altering the current scope (UI and navigation only, no logic).
+
+The task is **strictly a refinement and expansion** of the already delivered Phase 2 app, not a rebuild or new project.
+
+---
+
+## 📌 Scope Confirmation (No Changes to Phase Definition)
+- **NO State Management**: Exclude Riverpod, BLoC, Provider, or any state libraries.
+- **NO Business Logic**: No XP tracking, coins logic, user progress, or scoring.
+- **NO Real Data Persistence**: No APIs, local storage, or authentication.
+- **Static Placeholder Data Only**: All dynamic values, rewards, and progress indicators remain mock.
+
+This update is **100% focused on**:  
+- Advanced design polish  
+- Responsive UI  
+- Smooth animations  
+- Multi-theme and multi-language presentation  
+- JSON-based dynamic data support (structure only, no logic)
+
+---
+
+## 🎨 Advanced UI/UX Enhancements
+
+### Visual & Theming
+1. **Material 3 + Custom Branding Layer**:
+   - Extend Material 3 components with **custom neon accents** for primary actions (buttons, highlights).
+   - Ensure **3 fully switchable themes** (e.g., Neon Blue, Solarized Green, Dark Purple) configurable via **Settings**.
+2. **Typography**:
+   - Use **"Cairo"** as the primary Arabic font.
+   - **"Roboto" or "Inter"** for English/technical content.
+   - Proper **bidirectional text rendering** for mixed Arabic/English without alignment distortion.
+3. **Animations**:
+   - **60fps** page transitions, hero animations, and subtle element motion.
+   - **Micro-interactions** (hover, tap, and focus states for buttons/cards).
+   - **Staggered list loading** (fade + slide) for grids and lists.
+4. **Responsive Layouts**:
+   - Adaptive grid and card scaling for phones and tablets.
+   - Fluid typography scaling using `MediaQuery` + `LayoutBuilder`.
+
+---
+
+## 🌐 Multi-Language Display (Critical Update)
+- Enable **simultaneous Arabic (RTL) and English (LTR)** text rendering **without character reordering or forced alignment**.
+- Ensure code snippets, keywords, and technical terms are always **left-to-right (LTR)** even within Arabic paragraphs.
+- Implement **TextDirection logic per widget** (not per app) for accuracy.
+
+---
+
+## 🔧 New Functional UI Sections (Placeholders Only)
+### 1. **Settings Screen**
+   - Theme switching (3 pre-defined themes).
+   - App language toggle (Arabic / English).
+   - Font scaling slider.
+   - Animation toggle (enable/disable motion effects).
+
+### 2. **Challenges Hub**
+   - Daily and weekly challenge cards (static content).
+   - Placeholder reward badges and coin indicators.
+
+### 3. **Community (Discussion Feed)**
+   - Static list of posts with avatar, username, and text.
+   - Ready for future integration (no logic yet).
+
+### 4. **Competitions & Leaderboards**
+   - Leaderboard table (mock data).
+   - Upcoming competitions cards (placeholder).
+
+---
+
+## 📚 Course View Redesign (Spiral Lesson Layout)
+- **Header Section**:  
+  - Display **Stage/Level name** (e.g., "المستوى الأول") centered.
+- **Unit Blocks**:  
+  - Each unit name centered beneath stage title.
+  - Lessons arranged as **alternating left/right spiral cards**, vertically stacked.
+  - Each lesson card includes:  
+    - Title  
+    - Background image  
+    - Icon  
+    - Static completion indicator  
+- **End-of-Level CTA**:  
+  - Prominent "اجتياز الاختبار النهائي" (Final Exam) button.
+  - On completion (mock): Display **animated celebratory sequence** (confetti, starburst, sound effect).
+  - Auto-refresh UI to display next level’s content (mock only).
+
+---
+
+## 📦 JSON-driven Content Architecture
+1. **Centralized Data Structure**:
+   - All content (languages, levels, units, lessons, quizzes, badges, challenges) sourced from **local JSON files**.
+   - Dynamic data, but still mock (no persistence or logic).
+2. **Directory Structure**:
+assets/data/
+├── languages.json # Languages, icons, background assets
+├── challenges.json # Daily/weekly challenge definitions
+├── badges.json # Achievement metadata
+├── {language}/
+├── level_{n}/
+├── unit_{n}/
+├── lesson_{n}.json # Lesson + embedded quiz definition                                                                       3. **Lesson JSON Schema**:
+- Must support:
+  - Titles (Arabic + English).
+  - Media references (images, videos, code snippets).
+  - Multiple quiz types:  
+    - Multiple Choice  
+    - Drag-and-Drop  
+    - Fill-in-the-Blank  
+    - True/False  
+    - Code Ordering
+- Define **clear IDs, keys, and nesting structure**.
+4. **README Documentation**:
+- Deliver a `README.md` specifying **all keys, data types, and conventions** for every JSON schema.
+- Include at least **1 fully annotated template per content type** (Language, Lesson, Quiz, Badge, Challenge).
+
+---
+
+## 🖼 Global UI Polish (Existing Screens)
+Enhance all existing screens with improved aesthetics, spacing, and motion:
+- **Splash & Onboarding**: Gradient backgrounds, animated logo, smooth carousel.
+- **Registration & Profile**: Larger interactive avatars, editable fields with modal dialogs.
+- **Home Hub**: Refined track cards with shadow depth and hover motion.
+- **Quiz & Results**: Animated feedback, celebration effects on results.
+- **Review & Store**: Clean grid organization, responsive spacing.
+
+---
+
+## 🧾 Deliverables
+1. Fully updated Flutter project (build-ready) with:
+- 3 theme modes (light, dark, custom).
+- Advanced responsive UI and animations.
+- JSON-driven data structure and annotated templates.
+- Full multi-language (Arabic + English) handling.
+2. `README.md` with full JSON schema documentation.
+3. All screens polished, with new sections integrated (as static placeholders).
+
+---
+
+## 🚫 Restrictions (Still Apply)
+- **No logic, no persistence, no networking.**
+- **Only UI, navigation, and static JSON data binding.**
+- Must remain compatible with existing navigation and structure.
+
+---
+
+## ✅ Developer Action Required
+- Apply **all enhancements above** on top of the current Phase 2 build.  
+- Do **not treat this as a new build** – only refine, expand, and restructure per these specifications.  

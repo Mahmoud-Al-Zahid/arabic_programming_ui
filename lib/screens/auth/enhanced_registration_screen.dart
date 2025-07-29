@@ -1,19 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
-import '../navigation/main_navigation.dart';
+import '../navigation/enhanced_main_navigation.dart';
+import '../../constants/app_constants.dart';
+import '../../core/theme/app_themes.dart';
 
-class RegistrationScreen extends StatefulWidget {
-  const RegistrationScreen({super.key});
+class EnhancedRegistrationScreen extends StatefulWidget {
+  const EnhancedRegistrationScreen({super.key});
 
   @override
-  State<RegistrationScreen> createState() => _RegistrationScreenState();
+  State<EnhancedRegistrationScreen> createState() => _EnhancedRegistrationScreenState();
 }
 
-class _RegistrationScreenState extends State<RegistrationScreen> {
+class _EnhancedRegistrationScreenState extends State<EnhancedRegistrationScreen> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _isLoading = false;
+  AppThemeType _currentTheme = AppThemeType.ocean; // Default theme
 
   void _register() async {
     if (_formKey.currentState!.validate()) {
@@ -30,7 +33,16 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
       if (mounted) {
         Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => const MainNavigation()),
+          MaterialPageRoute(
+            builder: (context) => EnhancedMainNavigation(
+              currentTheme: _currentTheme,
+              onThemeChange: (newTheme) {
+                setState(() {
+                  _currentTheme = newTheme;
+                });
+              },
+            ),
+          ),
         );
       }
     }
@@ -59,12 +71,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         ),
         child: Center(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.all(20.0),
+            padding: const EdgeInsets.all(AppConstants.defaultPadding),
             child: AnimationLimiter(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: AnimationConfiguration.toStaggeredList(
-                  duration: const Duration(milliseconds: 375),
+                  duration: AppConstants.animationDuration,
                   childAnimationBuilder: (widget) => SlideAnimation(
                     verticalOffset: 50.0,
                     child: FadeInAnimation(
@@ -97,11 +109,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             decoration: InputDecoration(
                               labelText: 'البريد الإلكتروني',
                               prefixIcon: Icon(Icons.email, color: Theme.of(context).colorScheme.primary),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              filled: true,
-                              fillColor: Theme.of(context).colorScheme.surface,
                             ),
                             keyboardType: TextInputType.emailAddress,
                             validator: (value) {
@@ -120,11 +127,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             decoration: InputDecoration(
                               labelText: 'كلمة المرور',
                               prefixIcon: Icon(Icons.lock, color: Theme.of(context).colorScheme.primary),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              filled: true,
-                              fillColor: Theme.of(context).colorScheme.surface,
                             ),
                             obscureText: true,
                             validator: (value) {
@@ -149,7 +151,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                     style: ElevatedButton.styleFrom(
                                       padding: const EdgeInsets.symmetric(vertical: 16),
                                       shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(12),
+                                        borderRadius: BorderRadius.circular(AppConstants.defaultBorderRadius),
                                       ),
                                       backgroundColor: Theme.of(context).colorScheme.primary,
                                       foregroundColor: Colors.white,
