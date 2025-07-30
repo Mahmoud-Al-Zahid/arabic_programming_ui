@@ -53,6 +53,12 @@ class _EnhancedSplashScreenState extends State<EnhancedSplashScreen> with Single
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final headlineStyle = theme.textTheme.headlineMedium ??
+        const TextStyle(fontSize: 28.0, fontWeight: FontWeight.bold, color: Colors.white);
+    final titleStyle = theme.textTheme.titleMedium ??
+        const TextStyle(fontSize: 16.0, color: Colors.white70);
+
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -84,10 +90,7 @@ class _EnhancedSplashScreenState extends State<EnhancedSplashScreen> with Single
                     opacity: _animation,
                     child: Text(
                       'تعلم البرمجة بالعربية',
-                      style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style: headlineStyle,
                     ),
                   ),
                   const SizedBox(height: 10),
@@ -95,9 +98,7 @@ class _EnhancedSplashScreenState extends State<EnhancedSplashScreen> with Single
                     opacity: _animation,
                     child: Text(
                       'رحلتك نحو الإتقان تبدأ هنا',
-                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        color: Colors.white70,
-                      ),
+                      style: titleStyle,
                     ),
                   ),
                 ],
