@@ -237,7 +237,7 @@ class AppThemes {
           color: config['onPrimary'],
         ),
       ),
-      cardTheme: CardThemeData( // Use CardThemeData
+      cardTheme: CardTheme(
         elevation: 4,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
@@ -285,7 +285,7 @@ class AppThemes {
         ),
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       ),
-      tabBarTheme: TabBarThemeData( // Corrected to TabBarThemeData
+      tabBarTheme: TabBarTheme(
         labelColor: config['onPrimary'],
         unselectedLabelColor: config['onPrimary'].withOpacity(0.7),
         indicator: UnderlineTabIndicator(

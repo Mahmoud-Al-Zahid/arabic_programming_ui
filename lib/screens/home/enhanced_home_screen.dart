@@ -55,7 +55,12 @@ class _EnhancedHomeScreenState extends State<EnhancedHomeScreen>
     super.dispose();
   }
 
-  Widget _buildStatCard(String title, String value, IconData icon, Color color) {
+  Widget _buildStatCard(
+    String title,
+    String value,
+    IconData icon,
+    Color color,
+  ) {
     return Expanded(
       child: Container(
         padding: const EdgeInsets.all(12),
@@ -117,7 +122,9 @@ class _EnhancedHomeScreenState extends State<EnhancedHomeScreen>
               margin: const EdgeInsets.only(bottom: 16),
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.surface,
-                borderRadius: BorderRadius.circular(AppConstants.defaultBorderRadius),
+                borderRadius: BorderRadius.circular(
+                  AppConstants.defaultBorderRadius,
+                ),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black.withOpacity(0.05),
@@ -154,15 +161,17 @@ class _EnhancedHomeScreenState extends State<EnhancedHomeScreen>
                             children: [
                               Text(
                                 track['title'],
-                                style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                                  fontWeight: FontWeight.bold,
-                                ),
+                                style: Theme.of(context).textTheme.titleMedium
+                                    ?.copyWith(fontWeight: FontWeight.bold),
                               ),
                               Text(
                                 track['description'],
-                                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                  color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
-                                ),
+                                style: Theme.of(context).textTheme.bodySmall
+                                    ?.copyWith(
+                                      color: Theme.of(
+                                        context,
+                                      ).colorScheme.onSurface.withOpacity(0.7),
+                                    ),
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                               ),
@@ -170,35 +179,48 @@ class _EnhancedHomeScreenState extends State<EnhancedHomeScreen>
                           ),
                         ),
                         Icon(
-                          track['isAccessible'] ? Icons.arrow_forward_ios : Icons.lock,
-                          color: track['isAccessible'] ? themeConfig['primary'] : Colors.grey,
+                          track['isAccessible']
+                              ? Icons.arrow_forward_ios
+                              : Icons.lock,
+                          color: track['isAccessible']
+                              ? themeConfig['primary']
+                              : Colors.grey,
                           size: 20,
                         ),
                       ],
                     ),
                     const SizedBox(height: 16),
-                    LinearProgressIndicator(
-                      value: track['progress'],
-                      backgroundColor: trackColor.withOpacity(0.2),
-                      color: trackColor,
+                    ClipRRect(
                       borderRadius: BorderRadius.circular(10),
-                      minHeight: 8,
+                      child: LinearProgressIndicator(
+                        value: track['progress'],
+                        backgroundColor: trackColor.withOpacity(0.2),
+                        color: trackColor,
+                        minHeight: 8,
+                      ),
                     ),
                     const SizedBox(height: 8),
+
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
                           '${(track['progress'] * 100).toInt()}% مكتمل',
-                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
-                          ),
+                          style: Theme.of(context).textTheme.bodySmall
+                              ?.copyWith(
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.onSurface.withOpacity(0.7),
+                              ),
                         ),
                         Text(
                           '${track['lessonsCount']} دروس',
-                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
-                          ),
+                          style: Theme.of(context).textTheme.bodySmall
+                              ?.copyWith(
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.onSurface.withOpacity(0.7),
+                              ),
                         ),
                       ],
                     ),
@@ -232,7 +254,9 @@ class _EnhancedHomeScreenState extends State<EnhancedHomeScreen>
                       colors: AppThemes.getGradient(widget.currentTheme).colors,
                       borderRadius: 0,
                       child: Container(
-                        padding: const EdgeInsets.all(AppConstants.defaultPadding),
+                        padding: const EdgeInsets.all(
+                          AppConstants.defaultPadding,
+                        ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -241,15 +265,23 @@ class _EnhancedHomeScreenState extends State<EnhancedHomeScreen>
                               children: [
                                 Text(
                                   'أهلاً بك، أحمد!',
-                                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headlineMedium
+                                      ?.copyWith(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                 ),
                                 CircleAvatar(
                                   radius: 24,
-                                  backgroundColor: Colors.white.withOpacity(0.2),
-                                  child: Icon(Icons.person, color: Colors.white),
+                                  backgroundColor: Colors.white.withOpacity(
+                                    0.2,
+                                  ),
+                                  child: Icon(
+                                    Icons.person,
+                                    color: Colors.white,
+                                  ),
                                 ),
                               ],
                             ),
@@ -279,7 +311,7 @@ class _EnhancedHomeScreenState extends State<EnhancedHomeScreen>
                 );
               },
             ),
-            
+
             // Learning Tracks Section
             Expanded(
               child: AnimationLimiter(
@@ -287,7 +319,10 @@ class _EnhancedHomeScreenState extends State<EnhancedHomeScreen>
                   padding: const EdgeInsets.all(AppConstants.defaultPadding),
                   itemCount: MockData.learningTracks.length,
                   itemBuilder: (context, index) {
-                    return _buildLearningTrackCard(MockData.learningTracks[index], index);
+                    return _buildLearningTrackCard(
+                      MockData.learningTracks[index],
+                      index,
+                    );
                   },
                 ),
               ),
